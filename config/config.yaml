@@ -1,0 +1,31 @@
+# Runtime parameters — loaded by AgentRegistry, passed as Graph(config=...).
+# Separate from config/agent.yaml (the static manifest).
+#
+# src/services/runtime_config.py is the only reader. Every value below is
+# validated there and reaches the pipeline; nothing here is decorative.
+
+# Backbone
+max_retry: 3
+timeout_s: 30
+
+# Delivery pipeline
+#
+# Days a parcel may be overdue before the answer routes the customer to a human
+# representative. Lowering this escalates sooner and is visible in the released
+# answer; raising it defers.
+escalation_threshold_days: 3
+
+# Upper bound on delivery-knowledge passages quoted in one answer.
+max_kb_chunks: 4
+
+# Channel the answer is formatted for when the caller does not name one.
+# One of: line, chat, email.
+default_channel: line
+
+# Carriers this deployment answers for. A parcel reported under a carrier
+# outside this list is still answered, without the carrier-specific passage.
+carrier_scope:
+  - yamato
+  - sagawa
+  - japan_post
+  - custom
